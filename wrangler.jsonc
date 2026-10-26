@@ -1,0 +1,7 @@
+{
+  "name": "yogoan",
+  "compatibility_date": "2026-10-26", // デプロイする日に更新してください
+  "assets": {
+    "directory": "./dist",
+  }
+}
