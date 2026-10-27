@@ -1,16 +1,16 @@
-## Development
+## Requirement
 
-When starting the dev server, use background mode:
+- 日本語で回答してください。
 
-```
-astro dev --background
-```
+## Command
 
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+| 目的 | コマンド |
+| --- | --- |
+| 開発サーバー起動 | `npm run dev` |
 
 ## Documentation
 
-Full documentation: https://docs.astro.build
+Astro Full documentation: https://docs.astro.build
 
 Consult these guides before working on related tasks:
 
@@ -20,3 +20,5 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+Astro Starlight Full documentation: https://starlight.astro.build/
