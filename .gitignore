@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # AI Doc
 AGENTS.md
+
+# wrangler local state
+.wrangler/
