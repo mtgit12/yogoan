@@ -1,0 +1,71 @@
+---
+import { categories } from "@data/categories";
+import { getTerms, href, termsInDir } from "@lib/docs";
+
+const terms = await getTerms();
+const items = categories.map((c) => {
+    const list = termsInDir(terms, c.dir);
+    return {
+        ...c,
+        count: list.length,
+        link: list[0] ? href(list[0].id) : undefined,
+    };
+});
+---
+
+<section class="not-content" aria-labelledby="yg-categories">
+    <h2 id="yg-categories" class="mb-4 text-[1.375rem] font-extrabold text-ink">
+        カテゴリ
+    </h2>
+    <div class="grid grid-cols-[repeat(auto-fit,minmax(160px,1fr))] gap-3.5">
+        {items.map((c) => {
+            const Tag = c.link ? "a" : "div";
+            return (
+                <Tag
+                    href={c.link}
+                    class:list={[
+                        "flex flex-col gap-2 rounded-[14px] p-4.5 no-underline",
+                        // 「その他」は白タイル
+                        c.plain
+                            ? "bg-surface text-ink shadow-[0_2px_6px_rgba(11,42,91,0.06)]"
+                            : "bg-cat text-white",
+                        // 記事がまだないカテゴリは薄く表示
+                        c.link ? "hover:brightness-108" : "opacity-55",
+                    ]}
+                    style={`--cat: ${c.color}; --cat-tint: ${c.tint}`}
+                >
+                    <span
+                        class:list={[
+                            "mb-4.5 flex size-9 items-center justify-center rounded-full text-cat",
+                            c.plain ? "bg-cat-tint" : "bg-white",
+                        ]}
+                        aria-hidden="true"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            width="18"
+                            height="18"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            set:html={c.icon}
+                        />
+                    </span>
+                    <span class="text-lg leading-[1.4] font-bold">
+                        {c.label}
+                    </span>
+                    <span
+                        class:list={[
+                            "text-sm",
+                            c.plain ? "text-muted" : "opacity-92",
+                        ]}
+                    >
+                        {c.count} 語
+                    </span>
+                </Tag>
+            );
+        })}
+    </div>
+</section>

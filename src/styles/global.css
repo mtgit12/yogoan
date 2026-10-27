@@ -1,0 +1,125 @@
+@layer base, starlight, theme, components, utilities;
+
+@import '@astrojs/starlight-tailwind';
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@theme {
+  /* 好みのテキストフォント。Starlightはデフォルトでシステムフォントスタックを使用します。 */
+  --font-sans: 'Noto Sans JP', system-ui, sans-serif;
+  /* 好みのコードフォント。Starlightはデフォルトでシステムの等幅フォントを使用します。 */
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  /* アクセントカラー（Tailwindの accent-* クラス用）。サイトの青系に合わせる。 */
+  --color-accent-50: var(--color-blue-50);
+  --color-accent-100: var(--color-blue-100);
+  --color-accent-200: var(--color-blue-200);
+  --color-accent-300: var(--color-blue-300);
+  --color-accent-400: var(--color-blue-400);
+  --color-accent-500: var(--color-blue-500);
+  --color-accent-600: var(--color-blue-600);
+  --color-accent-700: var(--color-blue-700);
+  --color-accent-800: var(--color-blue-800);
+  --color-accent-900: var(--color-blue-900);
+  --color-accent-950: var(--color-blue-950);
+  /* グレースケール（Tailwindの gray-* クラス用）。ネイビー基調に合わせて Slate を使う。 */
+  --color-gray-50: var(--color-slate-50);
+  --color-gray-100: var(--color-slate-100);
+  --color-gray-200: var(--color-slate-200);
+  --color-gray-300: var(--color-slate-300);
+  --color-gray-400: var(--color-slate-400);
+  --color-gray-500: var(--color-slate-500);
+  --color-gray-600: var(--color-slate-600);
+  --color-gray-700: var(--color-slate-700);
+  --color-gray-800: var(--color-slate-800);
+  --color-gray-900: var(--color-slate-900);
+  --color-gray-950: var(--color-slate-950);
+}
+
+/*
+ * テーマで切り替わる色を Tailwind のクラスとして使えるようにする。
+ *   bg-surface / text-ink / text-muted
+ *   bg-cat / text-cat / bg-cat-tint / text-cat-tint-text
+ *     → --cat などはコンポーネント側で style 属性からカテゴリごとに渡す
+ */
+@theme inline {
+  --color-surface: var(--yg-surface);
+  --color-ink: var(--yg-text);
+  --color-muted: var(--yg-muted);
+  --color-cat: var(--cat);
+  --color-cat-tint: var(--cat-tint);
+  --color-cat-tint-text: var(--cat-tint-text);
+  --color-sl-accent: var(--sl-color-accent);
+}
+
+/*
+ * Starlight の配色。starlight-tailwind が utilities レイヤーで設定する値を、
+ * 同じレイヤーの後ろに書いて上書きする（ライト/ダークで値が対応しないため直接指定）。
+ */
+@layer utilities {
+  /* ダークテーマ（ネイビー基調） */
+  :root {
+    --sl-color-accent-low: #15295a;
+    --sl-color-accent: #6e9bf0;
+    --sl-color-accent-high: #d6e4ff;
+    --sl-color-white: #ffffff;
+    --sl-color-gray-1: #eaf1fa;
+    --sl-color-gray-2: #c6d4ec;
+    --sl-color-gray-3: #8fa6d0;
+    --sl-color-gray-4: #5b719c;
+    --sl-color-gray-5: #34497a;
+    --sl-color-gray-6: #1a2c57;
+    --sl-color-black: #0e1a36;
+
+    --yg-surface: #16264b;
+    --yg-text: #eaf1fa;
+    --yg-muted: #b7c8e8;
+  }
+
+  /* ライトテーマ */
+  :root[data-theme='light'] {
+    --sl-color-accent-low: #dce7fa;
+    --sl-color-accent: #2a62cf;
+    --sl-color-accent-high: #0b2a5b;
+    --sl-color-white: #0b2a5b;
+    --sl-color-gray-1: #14305f;
+    --sl-color-gray-2: #2a4068;
+    --sl-color-gray-3: #3b4f72;
+    --sl-color-gray-4: #6a7c9c;
+    --sl-color-gray-5: #c5d3e8;
+    --sl-color-gray-6: #dce6f4;
+    --sl-color-gray-7: #f3f7fc;
+    --sl-color-black: #eaf1fa;
+
+    --yg-surface: #ffffff;
+    --yg-text: #0b2a5b;
+    --yg-muted: #3b4f72;
+  }
+}
+
+/* ---------- Starlight が生成する要素（クラスを直接付けられないのでここで指定） ---------- */
+
+/* ヘッダー：どちらのテーマでもネイビー */
+.header {
+  background-color: #0b3a82;
+  border-bottom-color: transparent;
+  /* ヘッダー内だけ色を白系に差し替え（タイトル、検索、アイコン） */
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #eaf1fa;
+  --sl-color-gray-2: #d6e2f7;
+  --sl-color-gray-3: #b7c8e8;
+  --sl-color-gray-4: #8fa6d0;
+  --sl-color-gray-5: #2b529a;
+  --sl-color-gray-6: #164590;
+  --sl-color-black: #0b3a82;
+  --sl-color-text-accent: #ffffff;
+  --sl-color-hairline-shade: #2b529a;
+}
+.site-title {
+  font-weight: 800;
+}
+
+/* ヒーロー */
+.hero h1 {
+  font-weight: 900;
+  color: var(--yg-text);
+}

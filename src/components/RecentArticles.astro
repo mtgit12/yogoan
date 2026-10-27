@@ -1,0 +1,64 @@
+---
+import { findCategory } from "@data/categories";
+import { getTerms, href } from "@lib/docs";
+
+const terms = await getTerms();
+
+// frontmatter の lastUpdated（日付）が新しい順に5件
+const recent = terms
+    .filter((t) => t.data.lastUpdated instanceof Date)
+    .sort(
+        (a, b) =>
+            (b.data.lastUpdated as Date).getTime() -
+            (a.data.lastUpdated as Date).getTime(),
+    )
+    .slice(0, 5)
+    .map((t) => {
+        const d = t.data.lastUpdated as Date;
+        return {
+            title: t.data.title,
+            link: href(t.id),
+            cat: findCategory(t.id),
+            date: `${String(d.getFullYear())}/${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getDate()).padStart(2, "0")}`,
+        };
+    });
+---
+
+<section
+    class="not-content mt-14 flex flex-col gap-3"
+    aria-labelledby="yg-recent"
+>
+    <h2 id="yg-recent" class="mb-1 text-[1.375rem] font-extrabold text-ink">
+        最近の記事
+    </h2>
+    {recent.length === 0 && (
+        <p class="m-0 text-muted">追加された記事はありません。</p>
+    )}
+    {recent.map((r) => (
+        <a
+            href={r.link}
+            class="flex flex-wrap items-center gap-4 rounded-xl bg-surface px-4.5 py-3.5 text-ink no-underline hover:outline-2 hover:outline-sl-accent"
+        >
+            <span
+                class="flex size-8.5 items-center justify-center rounded-[9px] bg-cat text-white"
+                style={`--cat: ${r.cat?.color ?? "#2A62CF"}`}
+                aria-hidden="true"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    width="16"
+                    height="16"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    set:html={r.cat?.icon ?? ""}
+                />
+            </span>
+            <span class="min-w-40 flex-1 font-bold">{r.title}</span>
+            <span class="text-sm text-muted">{r.cat?.short ?? "未分類"}</span>
+            <span class="text-sm text-muted">{r.date}</span>
+        </a>
+    ))}
+</section>
